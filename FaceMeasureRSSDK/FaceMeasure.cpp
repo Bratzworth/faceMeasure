@@ -298,26 +298,30 @@ int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, char*, int nShowCmd)
 
 void outputFiles(cv::Mat image, double* averages)
 {
+	// initializing file and string streams
 	std::ostringstream strs;
 	std::ofstream output_file;
 
+	// getting the current time
 	struct tm timeinfo;
 	time_t t = time(0);
 	localtime_s(&timeinfo, &t);
 
-
+	// saving the video frame
 	strs << "./recordings/";
 	strs << std::put_time(&timeinfo, "%Y-%m-%d-%H-%M-%S");
 	strs << ".jpg";
 	cv::imwrite(strs.str(), image);
 	strs.str("");
 
+	// saving the data
 	strs << "./recordings/";
 	strs << std::put_time(&timeinfo, "%Y-%m-%d-%H-%M-%S");
 	strs << ".csv";
 	output_file.open(strs.str());
 	strs.clear();
 
+	// formatting the csv properly
 	output_file << "Measurement,Distance (mm)\n";
 	output_file << "\nPalpebral Apeture (L)," << averages[0];
 	output_file << "\nPalpebral Apeture (R)," << averages[1];
